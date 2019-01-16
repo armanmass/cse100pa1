@@ -25,7 +25,9 @@ public:
      * Constructor that initializes a BSTIterator pointing to curr. 
      */
     // TODO
-    BSTIterator(BSTNode<Data>* curr) {}
+    BSTIterator(BSTNode<Data>* curr) {
+	this->curr = curr;
+    }
 
     /** 
      * Dereference operator. 
@@ -55,13 +57,21 @@ public:
      * Equality test operator. 
      */  
     // TODO
-    bool operator==(BSTIterator<Data> const& other) const {}
+    bool operator==(BSTIterator<Data> const& other) const {
+	if(!(curr->data < other.data) && !(other.data < curr->data))
+		return true;
+	return false;
+    }
 
     /** 
      * Inequality test operator. 
      */  
     // TODO
-    bool operator!=(BSTIterator<Data> const& other) const {}
+    bool operator!=(BSTIterator<Data> const& other) const {
+	if((curr->data < other.data) || (other.data < curr->data))
+		return true;
+	return false;
+    }
 };
 
 #endif  // BSTITERATOR_HPP
