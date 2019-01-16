@@ -57,7 +57,23 @@ public:
      *     this function, false otherwise (e.g. item is a duplicate).
      */
     // TODO
-    virtual bool insert(const Data &item) {}
+    virtual bool insert(const Data &item) {
+		BSTNode<Data> *n1 = new BSTNode<Data>(item);
+
+		if(root == nullptr){
+			root = n1;
+			return true;
+		}
+
+		if((root->data < item) && (n1->data < item)){
+			return false;
+		}
+		else if (root->data < item
+
+		if((
+		delete n1;
+
+	}
 
     /**
      * Searches for the given item in this BST.
@@ -80,19 +96,19 @@ public:
      * Returns the number of items currently in the BST.
      */
     // TODO
-    unsigned int size() const {}
+    unsigned int size() const {return 1;}
 
     /** 
      * Returns the height of this BST.
      */
     // TODO
-    unsigned int height() const {}
+    unsigned int height() const {return 1;}
 
     /** 
      * Returns true if this BST is empty, false otherwise.
      */
     // TODO
-    bool empty() const {}
+    bool empty() const {return false;}
 
     /** 
      * Returns an iterator pointing to the first item in the BST (not the root).
@@ -135,7 +151,7 @@ private:
      *     recurse left - print node data - recurse right
      */
     // TODO
-    static void inorder(BSTNode<Data> *n) {}
+    static void inorder(BSTNode<Data> : *n) {}
 
     /* 
      * Do a postorder traversal, deleting nodes.
@@ -147,6 +163,23 @@ private:
      */
     // TODO
     static void deleteAll(BSTNode<Data> *n) {}
+
+    virtual bool insertRec(BSTNode<Data> *curr){
+	if(curr == nullptr){
+		curr = new BSTNode<Data>(item);
+		return true;
+	}
+
+	if(!(curr->data < item) && !(item < curr->data)){
+		cout << item << "already in tree." << endl;
+		return false;
+	}
+	
+	if(curr->data < item)
+		insertRec(curr->right, item);
+	if(item < curr->data)
+		insertRec(curr->left, item);
+    }
 };
 
 #endif  // BST_HPP
