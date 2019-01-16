@@ -40,7 +40,10 @@ public:
      * Default destructor. Frees all memory allocated by this BST.
      */
     // TODO
-    virtual ~BST() {}
+    virtual ~BST() {
+		deletAll(root);
+    }
+
 
     /** 
      * Inserts the given item into this BST.
@@ -58,20 +61,42 @@ public:
      */
     // TODO
     virtual bool insert(const Data &item) {
-		BSTNode<Data> *n1 = new BSTNode<Data>(item);
+		BSTNode<Data>* n1 = new BSTNode<Data>(item);
 
 		if(root == nullptr){
 			root = n1;
+			isize++;
 			return true;
 		}
-
-		if((root->data < item) && (n1->data < item)){
-			return false;
+		
+		BSTNode<Data>* curr = root;
+		
+		while(curr != nullptr){
+			if(!(curr->data < item) && !(item < curr->data)){
+				return false;
+			}
+			else if (curr->data < item){
+				if(curr->right == nullptr)
+					curr->right = n1;
+					isize++;
+					delete n1;
+					return true;
+				else
+					curr = curr->right;
+			}
+			else{
+				if(curr->left == nullptr)
+					curr->left = n1;
+					isize++;
+					delete n1;
+					return true;
+				else
+					curr = curr->left;
+			}
 		}
-		else if (root->data < item
 
-		if((
 		delete n1;
+		return false;
 
 	}
 
@@ -96,19 +121,27 @@ public:
      * Returns the number of items currently in the BST.
      */
     // TODO
-    unsigned int size() const {return 1;}
+    unsigned int size() const {
+	return isize;
+    }
 
     /** 
      * Returns the height of this BST.
      */
     // TODO
-    unsigned int height() const {return 1;}
+    unsigned int height() const {
+	return heightRec(root);
+    }
 
     /** 
      * Returns true if this BST is empty, false otherwise.
      */
     // TODO
-    bool empty() const {return false;}
+    bool empty() const {
+	if(isize == 0)
+		return true;
+	return false;
+    }
 
     /** 
      * Returns an iterator pointing to the first item in the BST (not the root).
@@ -151,7 +184,11 @@ private:
      *     recurse left - print node data - recurse right
      */
     // TODO
-    static void inorder(BSTNode<Data> : *n) {}
+    static void inorder(BSTNode<Data> : *n) {
+	inorder(n->left);
+	cout << n->data << endl;
+	inorder(n->right);
+    }
 
     /* 
      * Do a postorder traversal, deleting nodes.
@@ -164,21 +201,10 @@ private:
     // TODO
     static void deleteAll(BSTNode<Data> *n) {}
 
-    virtual bool insertRec(BSTNode<Data> *curr){
-	if(curr == nullptr){
-		curr = new BSTNode<Data>(item);
-		return true;
-	}
-
-	if(!(curr->data < item) && !(item < curr->data)){
-		cout << item << "already in tree." << endl;
-		return false;
-	}
-	
-	if(curr->data < item)
-		insertRec(curr->right, item);
-	if(item < curr->data)
-		insertRec(curr->left, item);
+    unsigned int heightRec(BSTNode<Data>* curr) {
+	if(curr == nullptr)
+		return 0;
+	return 1 + max(heightRec(curr->left), heightRec(curr->right));
     }
 };
 
