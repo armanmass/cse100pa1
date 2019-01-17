@@ -66,38 +66,44 @@ public:
 		if(root == nullptr){
 			root = n1;
 			isize++;
+			iheight = 1;
 			return true;
 		}
 		
 		BSTNode<Data>* curr = root;
-		
+		unsigned int count = 1;
+
 		while(curr != nullptr){
 			if(!(curr->data < item) && !(item < curr->data)){
 				return false;
 			}
 			else if (curr->data < item){
-				if(curr->right == nullptr)
+				if(curr->right == nullptr){
 					curr->right = n1;
 					isize++;
-					delete n1;
+					iheight = count;
 					return true;
-				else
+				}
+				else{
 					curr = curr->right;
+				}
 			}
 			else{
 				if(curr->left == nullptr)
 					curr->left = n1;
 					isize++;
-					delete n1;
+					iheight = count;
 					return true;
 				else
 					curr = curr->left;
 			}
 		}
 
+		if(iheight < count)
+			iheight = count;
+
 		delete n1;
 		return false;
-
 	}
 
     /**
@@ -130,7 +136,7 @@ public:
      */
     // TODO
     unsigned int height() const {
-	return heightRec(root);
+	return iheight;
     }
 
     /** 
@@ -184,10 +190,17 @@ private:
      *     recurse left - print node data - recurse right
      */
     // TODO
-    static void inorder(BSTNode<Data> : *n) {
-	inorder(n->left);
-	cout << n->data << endl;
-	inorder(n->right);
+    static void inorder(BSTNode<Data> *n) {
+	if(n != nullptr){
+
+		if(n->left != nullptr)
+			inorder(n->left);
+
+		cout << n->data << "\n" << endl;
+
+		if(n->right != nullptr)
+			inorder(n->right);
+	}
     }
 
     /* 
@@ -199,13 +212,13 @@ private:
      *     recurse left - recurse right - delete node
      */
     // TODO
-    static void deleteAll(BSTNode<Data> *n) {}
-
-    unsigned int heightRec(BSTNode<Data>* curr) {
-	if(curr == nullptr)
-		return 0;
-	return 1 + max(heightRec(curr->left), heightRec(curr->right));
+    static void deleteAll(BSTNode<Data> *n) {
+	if(n == nullptr)
+		return;
+	else
+		deleteAll(n-
     }
+
 };
 
 #endif  // BST_HPP
