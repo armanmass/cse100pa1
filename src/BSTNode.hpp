@@ -39,7 +39,24 @@ public:
      *     or 0 if there is none (this is the last node in the BST).
      */
     // TODO
-    BSTNode<Data> *successor() {}
+    BSTNode<Data> *successor() {
+	BSTNode<Data>* curr = this;
+	
+	if(curr->right != nullptr){
+		curr = curr->right;
+		while(curr->left != nullptr)
+			curr = curr->left;
+		return curr;
+	}
+	else{
+		BSTNode<Data>* currParent = curr->parent;
+		while((currParent != nullptr) && (currParent->right == curr)){
+			curr = currParent;
+			currParent = curr->parent;
+		}
+		return currParent;
+	}
+    }
 };
 
 /** 
