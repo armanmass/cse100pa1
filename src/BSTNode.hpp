@@ -40,6 +40,9 @@ public:
      */
     // TODO
     BSTNode<Data> *successor() {
+	if(this == nullptr)
+		return nullptr;
+
 	BSTNode<Data>* curr = this;
 	
 	if(curr->right != nullptr){
@@ -49,13 +52,15 @@ public:
 		return curr;
 	}
 	else{
-		BSTNode<Data>* currParent = curr->parent;
-		while((currParent != nullptr) && (currParent->right == curr)){
-			curr = currParent;
-			currParent = curr->parent;
-		}
-		return currParent;
+	BSTNode<Data>* parent = curr->parent;
+	while(parent != nullptr){
+		if(parent->right != curr)
+			return parent;
+		curr = parent;
+		parent = curr->parent;
 	}
+	}
+	return nullptr;
     }
 };
 

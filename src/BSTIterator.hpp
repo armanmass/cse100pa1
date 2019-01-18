@@ -55,10 +55,10 @@ public:
 
     /** 
      * Equality test operator. 
-     */  
+     */
     // 
     bool operator==(BSTIterator<Data> const& other) const {
-	if(!(curr->data < other.curr->data) && !(other.curr->data < curr->data))
+	if(curr == other.curr)
 		return true;
 	return false;
     }
@@ -68,7 +68,7 @@ public:
      */  
     // 
     bool operator!=(BSTIterator<Data> const& other) const {
-	if((curr->data < other.curr->data) || (other.curr->data < curr->data))
+	if(curr != other.curr)
 		return true;
 	return false;
     }

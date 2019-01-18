@@ -221,7 +221,7 @@ private:
 		if(n->left != nullptr)
 			inorder(n->left);
 
-		cout << n->data << "\n" << endl;
+		cout << n->data << endl;
 
 		if(n->right != nullptr)
 			inorder(n->right);
