@@ -39,9 +39,9 @@ public:
     /** 
      * Default destructor. Frees all memory allocated by this BST.
      */
-    // TODO
+    // 
     virtual ~BST() {
-		deletAll(root);
+		deleteAll(root);
     }
 
 
@@ -59,7 +59,7 @@ public:
      *     true if the item was inserted as a consequence of calling
      *     this function, false otherwise (e.g. item is a duplicate).
      */
-    // TODO
+    // 
     virtual bool insert(const Data &item) {
 		BSTNode<Data>* n1 = new BSTNode<Data>(item);
 
@@ -74,6 +74,7 @@ public:
 		unsigned int count = 1;
 
 		while(curr != nullptr){
+			count++;
 			if(!(curr->data < item) && !(item < curr->data)){
 				return false;
 			}
@@ -89,20 +90,18 @@ public:
 				}
 			}
 			else{
-				if(curr->left == nullptr)
+				if(curr->left == nullptr){
 					curr->left = n1;
 					isize++;
 					iheight = count;
 					return true;
-				else
+				}
+				else{
 					curr = curr->left;
+				}
 			}
 		}
 
-		if(iheight < count)
-			iheight = count;
-
-		delete n1;
 		return false;
 	}
 
@@ -120,13 +119,30 @@ public:
      *     An iterator pointing to the item if found, or pointing 
      *     past the last node in this BST if item is not found.
      */
-    // TODO
-    virtual iterator find(const Data &item) const {}
+    // 
+    virtual iterator find(const Data &item) const {
+
+	BSTNode<Data>* curr = root;
+
+	while(curr != nullptr){
+		if(!(curr->data < item) &&!(item < curr->data)){
+			return typename BST<Data>::iterator(curr);
+		}
+		else if(curr->data < item){
+			curr = curr->right;
+		}
+		else{
+			curr = curr->left;
+		}
+	}
+	
+        return typename BST<Data>::iterator(0); 
+    }
 
     /** 
      * Returns the number of items currently in the BST.
      */
-    // TODO
+    // 
     unsigned int size() const {
 	return isize;
     }
@@ -134,7 +150,7 @@ public:
     /** 
      * Returns the height of this BST.
      */
-    // TODO
+    // 
     unsigned int height() const {
 	return iheight;
     }
@@ -142,7 +158,7 @@ public:
     /** 
      * Returns true if this BST is empty, false otherwise.
      */
-    // TODO
+    // 
     bool empty() const {
 	if(isize == 0)
 		return true;
@@ -152,8 +168,17 @@ public:
     /** 
      * Returns an iterator pointing to the first item in the BST (not the root).
      */
-    // TODO
-    iterator begin() const {}
+    // 
+    iterator begin() const {
+	if(root == nullptr)
+		return end();
+	
+	BSTNode<Data>* curr = root;
+	while(curr->left != nullptr)
+		curr = curr->left;
+	
+	return typename BST<Data>::iterator(curr);
+    }
 
     /** 
      * Returns an iterator pointing past the last item in the BST.
@@ -189,7 +214,7 @@ private:
      *
      *     recurse left - print node data - recurse right
      */
-    // TODO
+    // 
     static void inorder(BSTNode<Data> *n) {
 	if(n != nullptr){
 
@@ -211,12 +236,16 @@ private:
      *
      *     recurse left - recurse right - delete node
      */
-    // TODO
+    // 
     static void deleteAll(BSTNode<Data> *n) {
-	if(n == nullptr)
-		return;
-	else
-		deleteAll(n-
+	if(n != nullptr){
+		if(n->left != nullptr)
+			deleteAll(n->left);
+		else if(n->right != nullptr)
+			deleteAll(n->right);
+		
+		delete n;
+	}
     }
 
 };

@@ -24,7 +24,7 @@ public:
     /** 
      * Constructor that initializes a BSTIterator pointing to curr. 
      */
-    // TODO
+    // 
     BSTIterator(BSTNode<Data>* curr) {
 	this->curr = curr;
     }
@@ -56,9 +56,9 @@ public:
     /** 
      * Equality test operator. 
      */  
-    // TODO
+    // 
     bool operator==(BSTIterator<Data> const& other) const {
-	if(!(curr->data < other.data) && !(other.data < curr->data))
+	if(!(curr->data < other.curr->data) && !(other.curr->data < curr->data))
 		return true;
 	return false;
     }
@@ -66,9 +66,9 @@ public:
     /** 
      * Inequality test operator. 
      */  
-    // TODO
+    // 
     bool operator!=(BSTIterator<Data> const& other) const {
-	if((curr->data < other.data) || (other.data < curr->data))
+	if((curr->data < other.curr->data) || (other.curr->data < curr->data))
 		return true;
 	return false;
     }
