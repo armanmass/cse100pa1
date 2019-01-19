@@ -62,7 +62,6 @@ public:
     // 
     virtual bool insert(const Data &item) {
 		BSTNode<Data>* n1 = new BSTNode<Data>(item);
-
 		if(root == nullptr){
 			root = n1;
 			isize++;
@@ -81,6 +80,7 @@ public:
 			else if (curr->data < item){
 				if(curr->right == nullptr){
 					curr->right = n1;
+					n1->parent = curr;
 					isize++;
 					iheight = count;
 					return true;
@@ -92,6 +92,7 @@ public:
 			else{
 				if(curr->left == nullptr){
 					curr->left = n1;
+					n1->parent = curr;
 					isize++;
 					iheight = count;
 					return true;

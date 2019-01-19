@@ -38,7 +38,7 @@ public:
      *     the BSTNode that is the successor of this BSTNode,
      *     or 0 if there is none (this is the last node in the BST).
      */
-    // TODO
+    // 
     BSTNode<Data> *successor() {
 	if(this == nullptr)
 		return nullptr;
@@ -56,8 +56,8 @@ public:
 	while(parent != nullptr){
 		if(parent->right != curr)
 			return parent;
-		curr = parent;
-		parent = curr->parent;
+		parent = parent->parent;
+		curr = curr->parent;
 	}
 	}
 	return nullptr;
