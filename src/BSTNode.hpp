@@ -40,17 +40,22 @@ public:
      */
     // 
     BSTNode<Data> *successor() {
+	//if empty tree return null
 	if(this == nullptr)
 		return nullptr;
-
+	//curr point to current node (node that succesor was called on)
 	BSTNode<Data>* curr = this;
 	
+	//if node has right child curr becomes right child then continues left until left child is null
 	if(curr->right != nullptr){
 		curr = curr->right;
 		while(curr->left != nullptr)
 			curr = curr->left;
 		return curr;
 	}
+	//else when the right child isnt null climb up the tree until
+	//the right child is no the same as curr then return the parent 
+	//which will be the successor
 	else{
 	BSTNode<Data>* parent = curr->parent;
 	while(parent != nullptr){

@@ -41,7 +41,7 @@ public:
      */
     // 
     virtual ~BST() {
-		deleteAll(root);
+		deleteAll(root); //call helper destructor
     }
 
 
@@ -61,7 +61,9 @@ public:
      */
     // 
     virtual bool insert(const Data &item) {
+		//create new BSTNode object on heap with n1 pointing to it
 		BSTNode<Data>* n1 = new BSTNode<Data>(item);
+		//if tree is empty make n1 the root
 		if(root == nullptr){
 			root = n1;
 			isize++;
@@ -69,14 +71,18 @@ public:
 			return true;
 		}
 		
+		//make curr a pointer to the root and keep count of tree height
 		BSTNode<Data>* curr = root;
 		unsigned int count = 1;
 
+		//while not fallen off the tree
 		while(curr != nullptr){
 			count++;
+			//check for duplicate
 			if(!(curr->data < item) && !(item < curr->data)){
 				return false;
 			}
+			//if lesser test the two possibles cases
 			else if (curr->data < item){
 				if(curr->right == nullptr){
 					curr->right = n1;
@@ -89,6 +95,7 @@ public:
 					curr = curr->right;
 				}
 			}
+			//if greater test two possible cases
 			else{
 				if(curr->left == nullptr){
 					curr->left = n1;
@@ -122,9 +129,12 @@ public:
      */
     // 
     virtual iterator find(const Data &item) const {
-
+	//set pointer to root
 	BSTNode<Data>* curr = root;
 
+	//while not fallen off tree compare elements and climb down tree to find element
+	//once found return iterator object containing curr pointer to found node
+	//if not found return iterator object with null pointer
 	while(curr != nullptr){
 		if(!(curr->data < item) &&!(item < curr->data)){
 			return typename BST<Data>::iterator(curr);
@@ -171,6 +181,7 @@ public:
      */
     // 
     iterator begin() const {
+	//find the left most leaf of the BST which is the first item
 	if(root == nullptr)
 		return end();
 	
