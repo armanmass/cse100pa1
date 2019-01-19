@@ -175,8 +175,8 @@ public:
 		return end();
 	
 	BSTNode<Data>* curr = root;
-	while(curr->left != nullptr)
-		curr = curr->left;
+	while(curr->left != nullptr){
+		curr = curr->left;}
 	
 	return typename BST<Data>::iterator(curr);
     }
