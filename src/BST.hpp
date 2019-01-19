@@ -80,6 +80,7 @@ public:
 			count++;
 			//check for duplicate
 			if(!(curr->data < item) && !(item < curr->data)){
+				delete n1;
 				return false;
 			}
 			//if lesser test the two possibles cases
@@ -109,7 +110,7 @@ public:
 				}
 			}
 		}
-
+		delete n1;
 		return false;
 	}
 
@@ -208,6 +209,8 @@ public:
 
 private:
     /*
+ECTION("adding elements in random order") {
+(gdb) next
      * Find the first node in the given subtree with root curr.
      */
     static BSTNode<Data>* first(BSTNode<Data> *curr) {
@@ -253,7 +256,7 @@ private:
 	if(n != nullptr){
 		if(n->left != nullptr)
 			deleteAll(n->left);
-		else if(n->right != nullptr)
+		if(n->right != nullptr)
 			deleteAll(n->right);
 		
 		delete n;
