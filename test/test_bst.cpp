@@ -32,13 +32,14 @@ using namespace std;
  *     expected_height - the expected height of the BST after inserting elements
  */
 template <typename T>
-void test_bst(BST<T> &bst, vector<T> v, unsigned int expected_height) {
+void test_bst(BST<T> &bst, vector<T> v, unsigned int expected_height, unsigned int expected_size) {
     INFO("Inserting elements into BST");
 
     for (T i : v) REQUIRE(bst.insert(i));
     for (T i : v) CHECK(*(bst.find(i)) == i);
 
     CHECK(bst.height() == expected_height);
+    CHECK(bst.size() == expected_size);
 
     INFO("Testing inorder traversal with BSTIterator");
 
@@ -62,13 +63,13 @@ TEST_CASE("Building BST with integers") {
     BST<int> bst;
 
     SECTION("adding one element to BST") {
-        test_bst<int>(bst, vector<int>{1}, 1);
+        test_bst<int>(bst, vector<int>{1}, 1, 1);
         REQUIRE_FALSE(bst.insert(1));
         REQUIRE(bst.find(0) == bst.end());
     }
 
     SECTION("adding elements in random order") {
-        test_bst<int>(bst, vector<int>{10, 5, 15, 7, -2, 12}, 3);
+        test_bst<int>(bst, vector<int>{10, 5, 15, 7, -2, 12, 32, 4, 6, 72, 88, 100, 11}, 6, 13);
         REQUIRE_FALSE(bst.insert(-2));
 	bst.inorder();
     }
@@ -78,7 +79,7 @@ TEST_CASE("Building BST with strings") {
     BST<string> bst;
 
     SECTION("adding elements in random order") {
-        test_bst(bst, vector<string>{"c", "a", "d", "b", "e", "f"}, 4);
+        test_bst(bst, vector<string>{"c", "a", "d", "b", "e", "f"}, 4, 6);
 
         WARN("Calling BST::inorder(), ensure output is in ascending order");
 	bst.inorder();
@@ -89,7 +90,7 @@ TEST_CASE("Building BST with doubles") {
 	BST<double> bst;
 
 	SECTION("adding doubles randomly") {
-	    test_bst<double>(bst, vector<double>{1.454, 1.643, 1.29, 4.5, 3.2, 32}, 4);
+	    test_bst<double>(bst, vector<double>{1.454, 1.643, 1.29, 4.5, 3.2, 32}, 4, 6);
 	    bst.inorder();
     }
 }
@@ -98,7 +99,7 @@ TEST_CASE("EMPTY BST") {
 	BST<int> bst;
 
 	SECTION("no elements added") {
-	    test_bst<int>(bst, vector<int>{}, 0);
+	    test_bst<int>(bst, vector<int>{}, 0, 0);
 	    bst.inorder();
    }
 }
@@ -107,7 +108,7 @@ TEST_CASE("INORDER DEGENERATE TREE") {
 	BST<int> bst;
 
         SECTION("TESTING DEGEN TREE"){
-           test_bst<int>(bst, vector<int>{1, 2, 3, 7, 11, 12, 17}, 7);
+           test_bst<int>(bst, vector<int>{1, 2, 3, 7, 11, 12, 17}, 7, 7);
            REQUIRE_FALSE(bst.insert(1));
            REQUIRE_FALSE(bst.insert(2));
            REQUIRE_FALSE(bst.insert(3));

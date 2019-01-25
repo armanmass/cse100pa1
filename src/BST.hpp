@@ -89,7 +89,8 @@ public:
 					curr->right = n1;
 					n1->parent = curr;
 					isize++;
-					iheight = count;
+                    if(iheight < count)
+					    iheight = count;
 					return true;
 				}
 				else{
@@ -102,7 +103,8 @@ public:
 					curr->left = n1;
 					n1->parent = curr;
 					isize++;
-					iheight = count;
+                    if(iheight < count)
+					    iheight = count;
 					return true;
 				}
 				else{

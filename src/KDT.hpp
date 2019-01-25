@@ -52,7 +52,9 @@ public:
 
     /** Returns the square of the Euclidean distance between points p1 and p2 */
     // TODO
-    static double squareDistance(const Point &p1, const Point &p2) {}
+    static double squareDistance(const Point &p1, const Point &p2) {
+        return pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2);
+    }
 };
 
 /** 
@@ -95,7 +97,11 @@ public:
      *     the number of elements in the built KDT
      */
     // TODO
-    virtual unsigned int build(vector<Point> &points) {}
+    virtual unsigned int build(vector<Point> &points) {
+        root = buildSubset(points, points.begin(), points.size(), 0, 0);
+
+        return isize;
+    }
 
     /** 
      * Find the nearest neighbor to a given point.
@@ -116,7 +122,11 @@ public:
      *     if tree is empty
      */
     // TODO
-    virtual iterator findNearestNeighbor(const Point &p) const {}
+    virtual iterator findNearestNeighbor(const Point &p) const {
+        findNNHelper(root, numeric_limits<int>::max(), nullptr, 0);
+
+        return BST<Point>::iterator(*closestPoint);
+    }
 
     /** 
      * For the kd-tree, the find method should not be used. Use the function
@@ -158,11 +168,28 @@ private:
      *     find them useful for the sort function from #include <algorithm>.
      */
     // TODO
-    BSTNode<Point> *buildSubset(vector<Point> points, 
-                                unsigned int start,
-                                unsigned int end, 
-                                unsigned int dimension,
-                                unsigned int height) {}
+    BSTNode<Point> *buildSubset(vector<Point> points, unsigned int start, unsigned int end, unsigned int dimension, unsigned int height) {
+        if(!dimension){
+            sort(points.begin() + start, points.begin() + end, xLessThan);
+        }
+        else{
+            sort(points.begin() + start, points.begin() + end, xLessThan);
+        }
+
+        int mid = (start + end - 1)/2;
+
+        BSTNode<Point>* p = new BSTNode<Point>(points[mid]);
+
+        p->left = buildSubset(points, start, mid, !dimension, ++height);
+        if(p->left != null)
+            p->left->parent = p;
+
+        p->right = buildSubset(points, mid + 1, end, !dimension, ++height);
+        if(p->right != null)
+            p->right->parent = p;
+
+        return p;
+    }
 
     /* 
      * Find the node in the subtree that is closest to the given point p
@@ -182,11 +209,9 @@ private:
      *     closestPoint points to the nearest neighbor
      */
     // TODO
-    void findNNHelper(BSTNode<Point> *node, 
-                      const Point &queryPoint,
-                      double *smallestSquareDistance,
-                      BSTNode<Point> **closestPoint,
-                      unsigned int dimension) const {}
+    void findNNHelper(BSTNode<Point> *node, const Point &queryPoint, double *smallestSquareDistance, BSTNode<Point> **closestPoint, unsigned int dimension) const {
+
+    }
 };
 
 #endif  // KDT_HPP
