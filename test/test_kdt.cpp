@@ -14,11 +14,9 @@
 
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
-
 #include <algorithm>
 #include <vector>
 #include <string>
-
 #include "../src/KDT.hpp"
 
 using namespace std;
