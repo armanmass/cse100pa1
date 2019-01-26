@@ -98,7 +98,8 @@ public:
      */
     // TODO
     virtual unsigned int build(vector<Point> &points) {
-        root = buildSubset(points, points.begin(), points.size(), 0, 0);
+        if(points.size() != 0)
+            root = buildSubset(points, 0, points.size(), 0, 1);
 
         return isize;
     }
@@ -123,9 +124,13 @@ public:
      */
     // TODO
     virtual iterator findNearestNeighbor(const Point &p) const {
-        findNNHelper(root, numeric_limits<int>::max(), nullptr, 0);
+        BSTNode<Point> *curr = root;
+        BSTNode<Point> *nnPtr = nullptr;
+        double maxdist = numeric_limits<double>::max();
 
-        return BST<Point>::iterator(*closestPoint);
+        findNNHelper(curr, p, &maxdist, &nnPtr, 0);
+
+        return BST<Point>::iterator(nnPtr);
     }
 
     /** 
@@ -169,6 +174,9 @@ private:
      */
     // TODO
     BSTNode<Point> *buildSubset(vector<Point> points, unsigned int start, unsigned int end, unsigned int dimension, unsigned int height) {
+        if(start >= end)
+            return nullptr;
+        
         if(!dimension){
             sort(points.begin() + start, points.begin() + end, xLessThan);
         }
@@ -180,13 +188,18 @@ private:
 
         BSTNode<Point>* p = new BSTNode<Point>(points[mid]);
 
-        p->left = buildSubset(points, start, mid, !dimension, ++height);
-        if(p->left != null)
+        p->left = buildSubset(points, start, mid, !dimension, height + 1);
+        if(p->left != nullptr)
             p->left->parent = p;
 
-        p->right = buildSubset(points, mid + 1, end, !dimension, ++height);
-        if(p->right != null)
+        p->right = buildSubset(points, mid + 1, end, !dimension, height + 1);
+        if(p->right != nullptr)
             p->right->parent = p;
+
+        isize++;
+
+        if(iheight < height)
+            iheight = height;
 
         return p;
     }
@@ -210,7 +223,55 @@ private:
      */
     // TODO
     void findNNHelper(BSTNode<Point> *node, const Point &queryPoint, double *smallestSquareDistance, BSTNode<Point> **closestPoint, unsigned int dimension) const {
+        if(node == nullptr)
+            return;
 
+        if(!dimension){
+            if(xLessThan(queryPoint, node->data)){
+                if(node->left != nullptr){
+                    findNNHelper(node->left, queryPoint, 
+                                smallestSquareDistance, 
+                                closestPoint, !dimension);
+                }
+                else{
+                    findNNHelper(node->right, queryPoint, 
+                                smallestSquareDistance, 
+                                closestPoint, !dimension);
+                }
+            }
+        }
+        else{
+            if(yLessThan(queryPoint, node->data)){
+                if(node->right != nullptr){
+                    findNNHelper(node->right, queryPoint, 
+                                smallestSquareDistance, 
+                                closestPoint, !dimension);
+                }
+                else{
+                    findNNHelper(node->left, queryPoint, 
+                                smallestSquareDistance, 
+                                closestPoint, !dimension);
+                }
+            }
+        }
+
+         if(Point::squareDistance(queryPoint, node->data) < *smallestSquareDistance){
+             *smallestSquareDistance = Point::squareDistance(queryPoint, node->data);
+             *closestPoint = node;
+         }
+
+        if(!dimension){
+            if(Point::squareDistance(Point(queryPoint.x,0), Point((*closestPoint)->data.x, 0)) < *smallestSquareDistance)
+                findNNHelper(node->right, queryPoint, 
+                                smallestSquareDistance, 
+                                closestPoint, !dimension);
+        }
+        else{
+            if(Point::squareDistance(Point(0,queryPoint.y),Point(0, (*closestPoint)->data.y)) < *smallestSquareDistance)
+                findNNHelper(node->right, queryPoint, 
+                                smallestSquareDistance, 
+                                closestPoint, !dimension);
+        }
     }
 };
 
