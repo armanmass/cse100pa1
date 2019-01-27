@@ -242,12 +242,24 @@ private:
                                 smallestSquareDistance, 
                                 closestPoint, !dimension);
                 }
+                else{
+                    if(Point::squareDistance(queryPoint, node->data) < *smallestSquareDistance){
+             *smallestSquareDistance = Point::squareDistance(queryPoint, node->data);
+             *closestPoint = node;
+        }
+                }
             }
             else{
                 if(node->right != nullptr){
                     findNNHelper(node->right, queryPoint, 
                                 smallestSquareDistance, 
                                 closestPoint, !dimension);
+                }
+                else{
+                    if(Point::squareDistance(queryPoint, node->data) < *smallestSquareDistance){
+             *smallestSquareDistance = Point::squareDistance(queryPoint, node->data);
+             *closestPoint = node;
+        }
                 }
             }
         }
@@ -258,6 +270,12 @@ private:
                                 smallestSquareDistance, 
                                 closestPoint, !dimension);
                 }
+                else{
+                    if(Point::squareDistance(queryPoint, node->data) < *smallestSquareDistance){
+             *smallestSquareDistance = Point::squareDistance(queryPoint, node->data);
+             *closestPoint = node;
+        }
+                }
             }
             else{
                 if(node->right != nullptr){
@@ -265,15 +283,15 @@ private:
                                 smallestSquareDistance, 
                                 closestPoint, !dimension);
                 }
-            }
-        }
-
-        //store initial closest point
-        if(Point::squareDistance(queryPoint, node->data) < *smallestSquareDistance){
+                else{
+                    if(Point::squareDistance(queryPoint, node->data) < *smallestSquareDistance){
              *smallestSquareDistance = Point::squareDistance(queryPoint, node->data);
              *closestPoint = node;
         }
-         
+                }
+            }
+        }
+
         //recursive ascent up the tree checking if subtrees need
         //to be searched and searching if necessary
         if(node->left != nullptr){
@@ -310,6 +328,8 @@ private:
              *smallestSquareDistance = Point::squareDistance(queryPoint, node->data);
              *closestPoint = node;
         }
+
+            cout << *smallestSquareDistance << "\n" << endl;
         
     }
 };
