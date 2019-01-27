@@ -127,11 +127,11 @@ public:
         BSTNode<Point> *curr = root;
         BSTNode<Point> *nnPtr = nullptr;
         double maxdist = numeric_limits<double>::max();
-        bool downtree = true;
+ 
         if(root == nullptr)
             return end();
             
-        findNNHelper(curr, p, &maxdist, &nnPtr, 0, downtree);
+        findNNHelper(curr, p, &maxdist, &nnPtr, 0);
 
         return BST<Point>::iterator(nnPtr);
     }
@@ -231,34 +231,26 @@ private:
      */
     // TODO
     void findNNHelper(BSTNode<Point> *node, const Point &queryPoint, double *smallestSquareDistance, 
-                      BSTNode<Point> **closestPoint, unsigned int dimension, bool downtree) const{
+                      BSTNode<Point> **closestPoint, unsigned int dimension) const{
         if(node == nullptr)
             return;
 
-        //step 1 of algorithm to find initial child
-        if(downtree){
             if(!dimension){
                 if(xLessThan(queryPoint, node->data)){
                     if(node->left != nullptr){
                         findNNHelper(node->left, queryPoint, 
                                     smallestSquareDistance, 
-                                    closestPoint, !dimension, true);
+                                    closestPoint, !dimension);
                     }
-                    else{
-                        *smallestSquareDistance = Point::squareDistance(queryPoint, node->data);
-                        *closestPoint = node;
-                    }
+
                 }
                 else{
                     if(node->right != nullptr){
                         findNNHelper(node->right, queryPoint, 
                                     smallestSquareDistance, 
-                                    closestPoint, !dimension, true);
+                                    closestPoint, !dimension);
                     }
-                    else{
-                        *smallestSquareDistance = Point::squareDistance(queryPoint, node->data);
-                        *closestPoint = node;
-                   }
+ 
               }
            }
          else{
@@ -266,27 +258,19 @@ private:
                     if(node->left != nullptr){
                         findNNHelper(node->left, queryPoint, 
                                     smallestSquareDistance, 
-                                    closestPoint, !dimension, true);
+                                    closestPoint, !dimension);
                  }
-                    else{
-                        *smallestSquareDistance = Point::squareDistance(queryPoint, node->data);
-                        *closestPoint = node;
-                 }
+
                 }
                 else{
                     if(node->right != nullptr){
                         findNNHelper(node->right, queryPoint, 
                                     smallestSquareDistance, 
-                                    closestPoint, !dimension, true);
+                                    closestPoint, !dimension);
                     }
-                    else{
-                        *smallestSquareDistance = Point::squareDistance(queryPoint, node->data);
-                        *closestPoint = node;
-                    }
+
                 }
             }
-        }
-        downtree = false;
 
         //if square distance is smaller store it
         if(Point::squareDistance(queryPoint, node->data) < *smallestSquareDistance){
@@ -303,13 +287,13 @@ private:
                     if(node->right != nullptr)
                         findNNHelper(node->right, queryPoint, 
                                     smallestSquareDistance, 
-                                    closestPoint, !dimension, false);
+                                    closestPoint, !dimension);
                 }
                 else{
                     if(node->left != nullptr)
                         findNNHelper(node->left, queryPoint, 
                                     smallestSquareDistance, 
-                                    closestPoint, !dimension, false);
+                                    closestPoint, !dimension);
                 }
             }
         }
@@ -320,17 +304,20 @@ private:
                     if(node->right != nullptr)
                         findNNHelper(node->right, queryPoint, 
                                     smallestSquareDistance, 
-                                    closestPoint, !dimension, false);
+                                    closestPoint, !dimension);
                 }
                 else{
                     if(node->left != nullptr)
                         findNNHelper(node->left, queryPoint, 
                                     smallestSquareDistance, 
-                                    closestPoint, !dimension, false);
+                                    closestPoint, !dimension);
                 }
             }
         } 
+
     }
+
+    
 };
 
 #endif  // KDT_HPP
