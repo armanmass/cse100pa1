@@ -278,13 +278,13 @@ private:
         //to be searched and searching if necessary
         if(node->left != nullptr){
             if(!dimension){
-                if(Point::squareDistance(Point(queryPoint.x,0), Point((*closestPoint)->data.x, 0)) < *smallestSquareDistance)
+                if(Point::squareDistance(Point(queryPoint.y,0), Point((*closestPoint)->data.y, 0)) < *smallestSquareDistance)
                     findNNHelper(node->left, queryPoint, 
                                     smallestSquareDistance, 
                                     closestPoint, !dimension);
             }
             else{
-                if(Point::squareDistance(Point(0,queryPoint.y),Point(0, (*closestPoint)->data.y)) < *smallestSquareDistance)
+                if(Point::squareDistance(Point(0,queryPoint.x),Point(0, (*closestPoint)->data.x)) < *smallestSquareDistance)
                     findNNHelper(node->left, queryPoint, 
                                     smallestSquareDistance, 
                                     closestPoint, !dimension);
@@ -293,13 +293,13 @@ private:
 
         if(node->right != nullptr){
             if(!dimension){
-                if(Point::squareDistance(Point(queryPoint.x,0), Point((*closestPoint)->data.x, 0)) < *smallestSquareDistance)
+                if(Point::squareDistance(Point(queryPoint.y,0), Point((*closestPoint)->data.y, 0)) < *smallestSquareDistance)
                     findNNHelper(node->right, queryPoint, 
                                     smallestSquareDistance, 
                                     closestPoint, !dimension);
             }
             else{
-                if(Point::squareDistance(Point(0,queryPoint.y),Point(0, (*closestPoint)->data.y)) < *smallestSquareDistance)
+                if(Point::squareDistance(Point(0,queryPoint.x),Point(0, (*closestPoint)->data.x)) < *smallestSquareDistance)
                     findNNHelper(node->right, queryPoint, 
                                     smallestSquareDistance, 
                                     closestPoint, !dimension);
