@@ -86,11 +86,16 @@ int main(int argc, char *argv[]) {
     Point p(0,0);
     vector<Point> points = {};
     char response = 'y';
+    string read;
+    string::size_type sz;
 
     while(!in.eof()){
-        in >> p.x;
-        in >> p.y;
-        points.push_back(p);
+        getline(in, read);
+        if(!read.empty()){
+            p.x = stod(read, &sz);
+            p.y = stod(read.substr(sz));
+            points.push_back(p);
+        }
     }
 
     KDT tree;
@@ -100,7 +105,7 @@ int main(int argc, char *argv[]) {
     cout << "Size of tree: " << size << "\n";
     cout << "Height of tree: " << height << "\n";
 
-    Point nearestNeighbor(1,0);
+    Point nearestNeighbor(0,0);
 
     while (response != 'n'){
         cout << "Enter coordinate (x y): " << "\n";

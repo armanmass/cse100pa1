@@ -234,8 +234,20 @@ private:
                                 smallestSquareDistance, 
                                 closestPoint, !dimension);
                 }
-                else{
+                else if(node->right != nullptr){
                     findNNHelper(node->right, queryPoint, 
+                                smallestSquareDistance, 
+                                closestPoint, !dimension);
+                }
+            }
+            else{
+                if(node->right != nullptr){
+                    findNNHelper(node->right, queryPoint, 
+                                smallestSquareDistance, 
+                                closestPoint, !dimension);
+                }
+                else if(node->left != nullptr){
+                    findNNHelper(node->left, queryPoint, 
                                 smallestSquareDistance, 
                                 closestPoint, !dimension);
                 }
@@ -243,12 +255,24 @@ private:
         }
         else{
             if(yLessThan(queryPoint, node->data)){
+                if(node->left != nullptr){
+                    findNNHelper(node->left, queryPoint, 
+                                smallestSquareDistance, 
+                                closestPoint, !dimension);
+                }
+                else if(node->right != nullptr){
+                    findNNHelper(node->right, queryPoint, 
+                                smallestSquareDistance, 
+                                closestPoint, !dimension);
+                }
+            }
+            else{
                 if(node->right != nullptr){
                     findNNHelper(node->right, queryPoint, 
                                 smallestSquareDistance, 
                                 closestPoint, !dimension);
                 }
-                else{
+                else if(node->left != nullptr){
                     findNNHelper(node->left, queryPoint, 
                                 smallestSquareDistance, 
                                 closestPoint, !dimension);
@@ -256,23 +280,42 @@ private:
             }
         }
 
-         if(Point::squareDistance(queryPoint, node->data) < *smallestSquareDistance){
+         
+        if(node->left != nullptr){
+            if(!dimension){
+                if(Point::squareDistance(Point(queryPoint.x,0), Point((*closestPoint)->data.x, 0)) < *smallestSquareDistance)
+                    findNNHelper(node->left, queryPoint, 
+                                    smallestSquareDistance, 
+                                    closestPoint, !dimension);
+            }
+            else{
+                if(Point::squareDistance(Point(0,queryPoint.y),Point(0, (*closestPoint)->data.y)) < *smallestSquareDistance)
+                    findNNHelper(node->left, queryPoint, 
+                                    smallestSquareDistance, 
+                                    closestPoint, !dimension);
+            }
+        }
+
+        if(node->right != nullptr){
+            if(!dimension){
+                if(Point::squareDistance(Point(queryPoint.x,0), Point((*closestPoint)->data.x, 0)) < *smallestSquareDistance)
+                    findNNHelper(node->right, queryPoint, 
+                                    smallestSquareDistance, 
+                                    closestPoint, !dimension);
+            }
+            else{
+                if(Point::squareDistance(Point(0,queryPoint.y),Point(0, (*closestPoint)->data.y)) < *smallestSquareDistance)
+                    findNNHelper(node->right, queryPoint, 
+                                    smallestSquareDistance, 
+                                    closestPoint, !dimension);
+            }
+        }
+
+        if(Point::squareDistance(queryPoint, node->data) < *smallestSquareDistance){
              *smallestSquareDistance = Point::squareDistance(queryPoint, node->data);
              *closestPoint = node;
          }
-
-        if(!dimension){
-            if(Point::squareDistance(Point(queryPoint.x,0), Point((*closestPoint)->data.x, 0)) < *smallestSquareDistance)
-                findNNHelper(node->right, queryPoint, 
-                                smallestSquareDistance, 
-                                closestPoint, !dimension);
-        }
-        else{
-            if(Point::squareDistance(Point(0,queryPoint.y),Point(0, (*closestPoint)->data.y)) < *smallestSquareDistance)
-                findNNHelper(node->right, queryPoint, 
-                                smallestSquareDistance, 
-                                closestPoint, !dimension);
-        }
+        
     }
 };
 
