@@ -280,6 +280,11 @@ private:
             }
         }
 
+
+        if(Point::squareDistance(queryPoint, node->data) < *smallestSquareDistance){
+             *smallestSquareDistance = Point::squareDistance(queryPoint, node->data);
+             *closestPoint = node;
+        }
          
         if(node->left != nullptr){
             if(!dimension){
@@ -311,10 +316,7 @@ private:
             }
         }
 
-        if(Point::squareDistance(queryPoint, node->data) < *smallestSquareDistance){
-             *smallestSquareDistance = Point::squareDistance(queryPoint, node->data);
-             *closestPoint = node;
-         }
+        
         
     }
 };
