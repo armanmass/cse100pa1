@@ -253,7 +253,7 @@ private:
                     if(node->right != nullptr){
                         findNNHelper(node->right, queryPoint, 
                                     smallestSquareDistance, 
-                                    closestPoint, !dimension,true);
+                                    closestPoint, !dimension, true);
                     }
                     else{
                         *smallestSquareDistance = Point::squareDistance(queryPoint, node->data);
@@ -288,45 +288,46 @@ private:
         }
         downtree = false;
 
-        //recursive ascent up the tree checking if subtrees need
-        //to be searched and searching if necessary
-        if(node->left != nullptr){
-            if(!dimension){
-                if(Point::squareDistance(Point(queryPoint.x,0), Point((*closestPoint)->data.x, 0)) < *smallestSquareDistance)
-                    findNNHelper(node->left, queryPoint, 
-                                    smallestSquareDistance, 
-                                    closestPoint, !dimension, downtree);
-            }
-            else{
-                if(Point::squareDistance(Point(0,queryPoint.y),Point(0, (*closestPoint)->data.y)) < *smallestSquareDistance)
-                    findNNHelper(node->left, queryPoint, 
-                                    smallestSquareDistance, 
-                                    closestPoint, !dimension, downtree);
-            }
-        }
-
-        if(node->right != nullptr){
-            if(!dimension){
-                if(Point::squareDistance(Point(queryPoint.x,0), Point((*closestPoint)->data.x, 0)) < *smallestSquareDistance)
-                    findNNHelper(node->right, queryPoint, 
-                                    smallestSquareDistance, 
-                                    closestPoint, !dimension, downtree);
-            }
-            else{
-                if(Point::squareDistance(Point(0,queryPoint.y),Point(0, (*closestPoint)->data.y)) < *smallestSquareDistance)
-                    findNNHelper(node->right, queryPoint, 
-                                    smallestSquareDistance, 
-                                    closestPoint, !dimension, downtree);
-            }
-        }
         //if square distance is smaller store it
         if(Point::squareDistance(queryPoint, node->data) < *smallestSquareDistance){
              *smallestSquareDistance = Point::squareDistance(queryPoint, node->data);
              *closestPoint = node;
         }
 
-            cout << *smallestSquareDistance << "\n" << endl;
-        
+        //recursive ascent up the tree checking if subtrees need
+        //to be searched and searching if necessary
+        if(!dimension){
+            if(Point::squareDistance(Point(queryPoint.x,0), Point(node->data.x, 0)) < *smallestSquareDistance){
+                if(xLessThan(queryPoint, node->data)){
+                    if(node->right != nullptr)
+                        findNNHelper(node->right, queryPoint, 
+                                    smallestSquareDistance, 
+                                    closestPoint, !dimension, false);
+                }
+                else{
+                    if(node->left != nullptr)
+                        findNNHelper(node->left, queryPoint, 
+                                    smallestSquareDistance, 
+                                    closestPoint, !dimension, false);
+                }
+            }
+        }
+        else{
+            if(Point::squareDistance(Point(queryPoint.y,0), Point(node->data.y, 0)) < *smallestSquareDistance){
+                if(yLessThan(queryPoint, node->data)){
+                    if(node->right != nullptr)
+                        findNNHelper(node->right, queryPoint, 
+                                    smallestSquareDistance, 
+                                    closestPoint, !dimension, false);
+                }
+                else{
+                    if(node->left != nullptr)
+                        findNNHelper(node->left, queryPoint, 
+                                    smallestSquareDistance, 
+                                    closestPoint, !dimension, false);
+                }
+            }
+        } 
     }
 };
 
