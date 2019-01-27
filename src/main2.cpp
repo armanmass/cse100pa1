@@ -82,7 +82,7 @@ int main(int argc, char *argv[]) {
     // 
     // TODO your main2 implementation should go here
     //
-
+    
     Point p(0,0);
     vector<Point> points = {};
     char response = 'y';

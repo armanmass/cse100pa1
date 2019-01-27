@@ -128,8 +128,10 @@ public:
         BSTNode<Point> *nnPtr = nullptr;
         double maxdist = numeric_limits<double>::max();
 
-        if(root != nullptr)
-            findNNHelper(curr, p, &maxdist, &nnPtr, 0);
+        if(root == nullptr)
+            return end();
+            
+        findNNHelper(curr, p, &maxdist, &nnPtr, 0);
 
         return BST<Point>::iterator(nnPtr);
     }
@@ -316,7 +318,10 @@ private:
             }
         }
 
-        
+        if(Point::squareDistance(queryPoint, node->data) < *smallestSquareDistance){
+             *smallestSquareDistance = Point::squareDistance(queryPoint, node->data);
+             *closestPoint = node;
+        }
         
     }
 };

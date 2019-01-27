@@ -56,11 +56,29 @@ TEST_CASE("Testing KDT implementation") {
         REQUIRE(*(tree.findNearestNeighbor(Point(1, 1))) == Point(0, 0));
     }
 
+    SECTION("empty") {
+        vector<Point> points = {};
+        test_kdt(tree, points, 0);
+        REQUIRE(tree.findNearestNeighbor(Point(1, 1)) == nullptr);
+    }
+
     SECTION("adding many points") {
         vector<Point> points = {{1.0, 3.2}, {3.2, 1.0}, {5.7, 3.2}, 
                                 {1.8, 1.9}, {4.4, 2.2}};
         vector<Point> neighbors = {{1.2, 3.0}, {3.4, 1.2}, {5.9, 3.4},
                                    {2.0, 1.8}, {4.6, 2.0}};
+        test_kdt(tree, points, 3);
+        INFO("Searching for nearest neighbors");
+        for (size_t i = 0; i < points.size(); ++i) {
+            REQUIRE(*(tree.findNearestNeighbor(neighbors[i])) == points[i]);
+        }
+    }
+
+    SECTION("degen") {
+        vector<Point> points = {{1, 1}, {2, 2}, {3, 3}, 
+                                {4, 4}, {5, 5}};
+        vector<Point> neighbors = {{1, 1}, {2, 2}, {3, 3},
+                                   {4, 4}, {5, 5}};
         test_kdt(tree, points, 3);
         INFO("Searching for nearest neighbors");
         for (size_t i = 0; i < points.size(); ++i) {
