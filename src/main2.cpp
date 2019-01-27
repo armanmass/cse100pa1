@@ -83,6 +83,41 @@ int main(int argc, char *argv[]) {
     // TODO your main2 implementation should go here
     //
 
+    Point p(0,0);
+    vector<Point> points = {};
+    char response = 'y';
+
+    while(!in.eof()){
+        in >> p.x;
+        in >> p.y;
+        points.push_back(p);
+    }
+
+    KDT tree;
+    int size = tree.build(points);
+    int height = tree.height();
+
+    cout << "Size of tree: " << size << "\n";
+    cout << "Height of tree: " << height << "\n";
+
+    Point nearestNeighbor(1,0);
+
+    while (response != 'n'){
+        cout << "Enter coordinate (x y): " << "\n";
+
+        cin >> p.x;
+        cin >> p.y;
+
+        cout << p.x << " " << p.y << endl;
+
+        nearestNeighbor = *(tree.findNearestNeighbor(p));
+
+        cout << "Nearest point in tree: " << nearestNeighbor << "\n";
+
+        cout << "Search again? (y/n)" << "\n";
+        cin >> response;
+    }
+
     if (in.is_open()) {
         in.close();
     }
