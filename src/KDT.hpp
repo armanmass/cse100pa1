@@ -297,7 +297,8 @@ private:
         //recursive ascent up the tree checking if subtrees need
         //to be searched and searching if necessary
         if(!dimension){
-            if(Point::squareDistance(Point(queryPoint.x,0), Point(node->data.x, 0)) < *smallestSquareDistance){
+            double xDist = pow(queryPoint.x - node->data.x, 2);
+            if(xDist < *smallestSquareDistance){
                 if(xLessThan(queryPoint, node->data)){
                     if(node->right != nullptr)
                         findNNHelper(node->right, queryPoint, 
@@ -313,7 +314,8 @@ private:
             }
         }
         else{
-            if(Point::squareDistance(Point(queryPoint.y,0), Point(node->data.y, 0)) < *smallestSquareDistance){
+            double yDist = pow(queryPoint.y - node->data.y, 2);
+            if(yDist < *smallestSquareDistance){
                 if(yLessThan(queryPoint, node->data)){
                     if(node->right != nullptr)
                         findNNHelper(node->right, queryPoint, 
