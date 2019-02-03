@@ -232,45 +232,31 @@ private:
     // TODO
     void findNNHelper(BSTNode<Point> *node, const Point &queryPoint, double *smallestSquareDistance, 
                       BSTNode<Point> **closestPoint, unsigned int dimension) const{
+        
         if(node == nullptr)
             return;
 
-            if(!dimension){
-                if(xLessThan(queryPoint, node->data)){
-                    if(node->left != nullptr){
-                        findNNHelper(node->left, queryPoint, 
-                                    smallestSquareDistance, 
-                                    closestPoint, !dimension);
-                    }
-
-                }
-                else{
-                    if(node->right != nullptr){
-                        findNNHelper(node->right, queryPoint, 
-                                    smallestSquareDistance, 
-                                    closestPoint, !dimension);
-                    }
- 
+        if(!dimension){
+            if(xLessThan(queryPoint, node->data)){
+                     findNNHelper(node->left, queryPoint, 
+                                smallestSquareDistance, 
+                                 closestPoint, !dimension);
+              }else{
+                      findNNHelper(node->right, queryPoint, 
+                                  smallestSquareDistance, 
+                                  closestPoint, !dimension);
               }
-           }
-         else{
-             if(yLessThan(queryPoint, node->data)){
-                    if(node->left != nullptr){
-                        findNNHelper(node->left, queryPoint, 
-                                    smallestSquareDistance, 
-                                    closestPoint, !dimension);
-                 }
-
-                }
-                else{
-                    if(node->right != nullptr){
-                        findNNHelper(node->right, queryPoint, 
-                                    smallestSquareDistance, 
-                                    closestPoint, !dimension);
-                    }
-
-                }
+        }else{
+            if(yLessThan(queryPoint, node->data)){
+                     findNNHelper(node->left, queryPoint, 
+                                 smallestSquareDistance, 
+                                 closestPoint, !dimension);
+            }else{
+                      findNNHelper(node->right, queryPoint, 
+                                  smallestSquareDistance, 
+                                  closestPoint, !dimension);
             }
+        }
 
         //if square distance is smaller store it
         if(Point::squareDistance(queryPoint, node->data) < *smallestSquareDistance){
@@ -284,37 +270,29 @@ private:
             double xDist = pow(queryPoint.x - node->data.x, 2);
             if(xDist < *smallestSquareDistance){
                 if(xLessThan(queryPoint, node->data)){
-                    if(node->right != nullptr)
                         findNNHelper(node->right, queryPoint, 
                                     smallestSquareDistance, 
                                     closestPoint, !dimension);
-                }
-                else{
-                    if(node->left != nullptr)
+                }else{
                         findNNHelper(node->left, queryPoint, 
                                     smallestSquareDistance, 
                                     closestPoint, !dimension);
                 }
             }
-        }
-        else{
+        }else{
             double yDist = pow(queryPoint.y - node->data.y, 2);
             if(yDist < *smallestSquareDistance){
                 if(yLessThan(queryPoint, node->data)){
-                    if(node->right != nullptr)
                         findNNHelper(node->right, queryPoint, 
                                     smallestSquareDistance, 
                                     closestPoint, !dimension);
-                }
-                else{
-                    if(node->left != nullptr)
+                }else{
                         findNNHelper(node->left, queryPoint, 
                                     smallestSquareDistance, 
                                     closestPoint, !dimension);
                 }
             }
         } 
-
     }
 
     
