@@ -124,14 +124,13 @@ public:
      */
     // TODO
     virtual iterator findNearestNeighbor(const Point &p) const {
-        BSTNode<Point> *curr = root;
         BSTNode<Point> *nnPtr = nullptr;
         double maxdist = numeric_limits<double>::max();
  
         if(root == nullptr)
             return end();
             
-        findNNHelper(curr, p, &maxdist, &nnPtr, 0);
+        findNNHelper(root, p, &maxdist, &nnPtr, 0);
 
         return BST<Point>::iterator(nnPtr);
     }
@@ -185,7 +184,7 @@ private:
             sort(points.begin() + start, points.begin() + end, xLessThan);
         }
         else{
-            sort(points.begin() + start, points.begin() + end, xLessThan);
+            sort(points.begin() + start, points.begin() + end, yLessThan);
         }
 
         int mid = (start + end - 1)/2;
@@ -238,23 +237,23 @@ private:
 
         if(!dimension){
             if(xLessThan(queryPoint, node->data)){
-                     findNNHelper(node->left, queryPoint, 
-                                smallestSquareDistance, 
+                    findNNHelper(node->left, queryPoint, 
+                                 smallestSquareDistance, 
                                  closestPoint, !dimension);
               }else{
-                      findNNHelper(node->right, queryPoint, 
-                                  smallestSquareDistance, 
-                                  closestPoint, !dimension);
+                    findNNHelper(node->right, queryPoint, 
+                                 smallestSquareDistance, 
+                                 closestPoint, !dimension);
               }
         }else{
             if(yLessThan(queryPoint, node->data)){
-                     findNNHelper(node->left, queryPoint, 
+                    findNNHelper(node->left, queryPoint, 
                                  smallestSquareDistance, 
                                  closestPoint, !dimension);
             }else{
-                      findNNHelper(node->right, queryPoint, 
-                                  smallestSquareDistance, 
-                                  closestPoint, !dimension);
+                    findNNHelper(node->right, queryPoint, 
+                                 smallestSquareDistance, 
+                                 closestPoint, !dimension);
             }
         }
 
